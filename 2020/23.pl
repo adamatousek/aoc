@@ -14,8 +14,9 @@ say product( take(2, $cup1_b->{next}) );
 sub play_cups
 {
     my ($rounds, $n_cups) = @_;
-
     my $add_more = $n_cups > length $label; # true for part B
+
+    # indexed by cup label (- 1)
     my @cups = map { n => $_ }, (1..$n_cups);
     my $cur = $add_more ? $cups[$#cups] : $cups[(substr $label, -1, 1) - 1];
     for my $c (split //, $label) {
@@ -31,7 +32,8 @@ sub play_cups
         }
     }
 
-    $cur = $cups[(substr $label, 0, 1) - 1];
+    # wrap back to the start
+    $cur = $cur->{next};
 
     for (1..$rounds) {
         my $spl = $cur->{next};
